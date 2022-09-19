@@ -11,7 +11,7 @@ void main(){
     pi = 3.141592653589793;
     d = 4;
     area = pi * (radio * radio);
-    printf("\nArea = ");
+    printf("\nrea = ");
     printf(area);
     printf("Hola");
 
