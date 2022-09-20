@@ -70,6 +70,19 @@ namespace Semantica
             return valor;
             //return 0;
         }
+        private float getTipo(string nombreVariable)
+        {
+            float valor = 0;
+            foreach (Variable v in variables)
+            {
+                if(v.getNombre() == nombreVariable)
+                {
+                    valor = v.getTipo();
+                    //return valor;
+                }
+                
+            }
+        }
         //Programa  -> Librerias? Variables? Main
         public void Programa()
         {
@@ -208,6 +221,15 @@ namespace Semantica
         }
 
         //Asignacion -> identificador = cadena | Expresion;
+        private Variable.TipoDato evaluaNumero(float resultado)
+        {
+            
+        }
+        private bool evaluaSemantica(string variable,float resultado)
+        {
+            Variable.TipoDato tipoDato = getTipo(variable);
+            return false;
+        }
         private void Asignacion()
         {
             //requerimiento 2 si no existe la variable levanta la excepcion
