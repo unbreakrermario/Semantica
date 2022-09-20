@@ -70,18 +70,17 @@ namespace Semantica
             return valor;
             //return 0;
         }
-        private float getTipo(string nombreVariable)
+        private Variable.TipoDato getTipo(string nombre)
         {
-            float valor = 0;
             foreach (Variable v in variables)
             {
-                if(v.getNombre() == nombreVariable)
+                if(v.getNombre().Equals(nombre))
                 {
-                    valor = v.getTipo();
-                    //return valor;
+                    return v.getTipo();
+                   
                 }
-                
             }
+            return Variable.TipoDato.Char;
         }
         //Programa  -> Librerias? Variables? Main
         public void Programa()
@@ -223,7 +222,15 @@ namespace Semantica
         //Asignacion -> identificador = cadena | Expresion;
         private Variable.TipoDato evaluaNumero(float resultado)
         {
-            
+           if(resultado <= 255)
+            {
+                return Variable.TipoDato.Char;
+            }
+            else if (resultado <= 65535)
+            {
+                return Variable.TipoDato.Int;
+            }
+            return Variable.TipoDato.Float;
         }
         private bool evaluaSemantica(string variable,float resultado)
         {
