@@ -1,3 +1,4 @@
+//Mario Valdez Rico
 namespace Semantica
 {
     public class Variable
