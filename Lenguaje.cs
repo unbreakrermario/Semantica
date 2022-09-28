@@ -10,6 +10,7 @@ using System.Collections.Generic;
 //Requerimiento 4.- evaluar nuevamente la condicion del if-else, while, for, do while, con
 //                  con respecto al parametro que recibe
 //Requerimiento 5.- levantar una excepcion en el scanf cuando la captura no sea numero
+//Requerimiento 6.- ejecutar el For();
 namespace Semantica
 {
     public class Lenguaje : Sintaxis
@@ -338,21 +339,28 @@ namespace Semantica
             match("for");
             match("(");
             Asignacion(evaluacion);
-            bool validarFor = Condicion();
             //requerimiento 4
-            match(";");
-            Incremento(evaluacion);
-            match(")");
-            if (getContenido() == "{")
-            {
-                BloqueInstrucciones(evaluacion);
-            }
-            else
-            {
-                Instruccion(evaluacion);
-            }
+            //requerimiento 6: 
+            //a) nescesito guardar la poscicion de lectura en el archivo
+            bool validarFor = Condicion();
+            //b) metemos un ciclo while despues de validar for
+            //while()
+            //{
+                match(";");
+                Incremento(evaluacion);
+                match(")");
+                if (getContenido() == "{")
+                {
+                    BloqueInstrucciones(evaluacion);
+                }
+                else
+                {
+                    Instruccion(evaluacion);
+                }
+                //c) Regresar a la posicion de lectura del archivo
+                //d) sacar otro token
+            //}
         }
-
         //Incremento -> Identificador ++ | --
         private void Incremento(bool evaluacion)
         {
@@ -626,6 +634,10 @@ namespace Semantica
                 }
                 log.Write(getContenido() + " ");
                 //Requerimiento 1
+                if (dominante < getTipo(getContenido()))
+                {
+                    dominante = getTipo(getContenido());
+                }
                 stack.Push(getValor(getContenido()));//stack.Push(float.Parse(getContenido()));
                 match(Tipos.Identificador);
             }
