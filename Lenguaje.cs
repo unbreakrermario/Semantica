@@ -549,7 +549,7 @@ namespace Semantica
                 //requerimiento 5
                 //(mi idea)sacar mi parse para poder hacerlo
 
-                if (Regex.IsMatch(val, @"^[0-9]+$"))//tiene que ser un numero
+                if (Regex.IsMatch(val, @"^[0-9]+([.][0-9]+)?$"))//tiene que ser un numero
                 {
                    // Console.WriteLine("es un numero.\n");
                    // float parseado = float.Parse(val);
@@ -558,7 +558,7 @@ namespace Semantica
                 }
                 else
                 {
-                    throw new Error("El valor que introdujiste No es un numero <" + val + "> en la linea: " + linea, log);
+                    throw new Error("El valor que has introducido No es un numero <" + val + "> en la linea: " + linea, log);
                 }
 
 
