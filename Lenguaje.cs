@@ -1,5 +1,7 @@
 //Mario Valdez Rico
 using System;
+using System.Text.RegularExpressions;
+
 using System.Collections.Generic;
 //Requerimiento 1.- actualizar el dominante para variables en la expresion
 //                  Ejemplo: float x ; char y ; y=x ;
@@ -346,19 +348,19 @@ namespace Semantica
             //b) metemos un ciclo while despues de validar for
             //while()
             //{
-                match(";");
-                Incremento(evaluacion);
-                match(")");
-                if (getContenido() == "{")
-                {
-                    BloqueInstrucciones(evaluacion);
-                }
-                else
-                {
-                    Instruccion(evaluacion);
-                }
-                //c) Regresar a la posicion de lectura del archivo
-                //d) sacar otro token
+            match(";");
+            Incremento(evaluacion);
+            match(")");
+            if (getContenido() == "{")
+            {
+                BloqueInstrucciones(evaluacion);
+            }
+            else
+            {
+                Instruccion(evaluacion);
+            }
+            //c) Regresar a la posicion de lectura del archivo
+            //d) sacar otro token
             //}
         }
         //Incremento -> Identificador ++ | --
@@ -499,7 +501,6 @@ namespace Semantica
             match("(");
             if (getClasificacion() == Tipos.Cadena)
             {
-                //requerimiento 1
 
                 if (evaluacion)
                 {
@@ -537,19 +538,32 @@ namespace Semantica
             match(Tipos.Cadena);
             match(",");
             match("&");
-            //requerimiento 2.- si no existe la variable levanta la excepcion
             if (!existeVariable(getContenido()))
             {
                 throw new Error("No existe la variable <" + getContenido() + ">en la linea: " + linea, log);
             }
+            
             if (evaluacion)
             {
                 string val = "" + Console.ReadLine();
                 //requerimiento 5
                 //(mi idea)sacar mi parse para poder hacerlo
-                modVariable(getContenido(), float.Parse(val));//se se debe usar el get valor? (Creo): modVariable(getContenido(), getValor(val));
+
+                if (Regex.IsMatch(val, @"^[0-9]+$"))//tiene que ser un numero
+                {
+                   // Console.WriteLine("es un numero.\n");
+                   // float parseado = float.Parse(val);
+                    //if(){}
+                    modVariable(getContenido(), float.Parse(val));
+                }
+                else
+                {
+                    throw new Error("El valor que introdujiste No es un numero <" + val + "> en la linea: " + linea, log);
+                }
+
+
             }
-            match(Tipos.Identificador);
+            match(Tipos.Identificador);//va aqui???
             match(")");
             match(";");
         }
@@ -627,13 +641,11 @@ namespace Semantica
             }
             else if (getClasificacion() == Tipos.Identificador)
             {
-                //requerimiento 2 si no existe la variable levanta la excepcion
                 if (!existeVariable(getContenido()))
                 {
                     throw new Error("No existe la variable <" + getContenido() + ">en la linea: " + linea, log);
                 }
                 log.Write(getContenido() + " ");
-                //Requerimiento 1
                 if (dominante < getTipo(getContenido()))
                 {
                     dominante = getTipo(getContenido());
