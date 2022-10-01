@@ -1,3 +1,11 @@
 Archivo: prueba.cpp
-30/09/2022 03:24:24 p. m.
-1 1 El valor que introdujiste No es un numero <huy> en la linea: 14
+30/09/2022 10:03:21 p. m.
+1 1 x 
+variables: 
+area Float 0
+radio Float 0
+pi Float 0
+resultado Float 0
+x Char 678.5678
+a Int 0
+d Int 0

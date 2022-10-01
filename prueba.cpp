@@ -10,7 +10,7 @@ void main()
 {
   
       if (1 == 1)
-         printf("hola");
+         printf("hola\n");
          scanf("%d", &x);
          printf(x);
    

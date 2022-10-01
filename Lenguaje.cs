@@ -1,7 +1,6 @@
 //Mario Valdez Rico
 using System;
 using System.Text.RegularExpressions;
-
 using System.Collections.Generic;
 //Requerimiento 1.- actualizar el dominante para variables en la expresion
 //                  Ejemplo: float x ; char y ; y=x ;
@@ -11,7 +10,7 @@ using System.Collections.Generic;
 //                  deberan usar el residuo de la division %255, %65535
 //Requerimiento 4.- evaluar nuevamente la condicion del if-else, while, for, do while, con
 //                  con respecto al parametro que recibe
-//Requerimiento 5.- levantar una excepcion en el scanf cuando la captura no sea numero
+//Requerimiento 5.- levantar una excepcion en el scanf cuando la captura no sea numero**
 //Requerimiento 6.- ejecutar el For();
 namespace Semantica
 {
@@ -188,7 +187,6 @@ namespace Semantica
                 ListaInstrucciones(evaluacion);
             }
         }
-
         //ListaInstruccionesCase -> Instruccion ListaInstruccionesCase?
         private void ListaInstruccionesCase(bool evaluacion)
         {
@@ -198,7 +196,6 @@ namespace Semantica
                 ListaInstruccionesCase(evaluacion);
             }
         }
-
         //Instruccion -> Printf | Scanf | If | While | do while | For | Switch | Asignacion
         private void Instruccion(bool evaluacion)
         {
@@ -235,7 +232,6 @@ namespace Semantica
                 Asignacion(evaluacion);
             }
         }
-
         //Asignacion -> identificador = cadena | Expresion;
         private Variable.TipoDato evaluaNumero(float resultado)
         {
@@ -260,7 +256,6 @@ namespace Semantica
         }
         private void Asignacion(bool evaluacion)
         {
-            //requerimiento 2 si no existe la variable levanta la excepcion
             if (!existeVariable(getContenido()))
             {
                 throw new Error("No existe la variable <" + getContenido() + ">en la linea: " + linea, log);
@@ -296,7 +291,6 @@ namespace Semantica
             }
 
         }
-
         //While -> while(Condicion) bloque de instrucciones | instruccion
         private void While(bool evaluacion)
         {
@@ -315,7 +309,6 @@ namespace Semantica
                 Instruccion(evaluacion);
             }
         }
-
         //Do -> do bloque de instrucciones | intruccion while(Condicion)
         private void Do(bool evaluacion)
         {
@@ -367,7 +360,6 @@ namespace Semantica
         private void Incremento(bool evaluacion)
         {
             string variable = getContenido();
-            //requerimiento 2 si no existe la variable levanta la excepcion
             if (!existeVariable(getContenido()))
             {
                 throw new Error("No existe la variable <" + getContenido() + ">en la linea: " + linea, log);
@@ -416,7 +408,6 @@ namespace Semantica
             }
             match("}");
         }
-
         //ListaDeCasos -> case Expresion: listaInstruccionesCase (break;)? (ListaDeCasos)?
         private void ListaDeCasos(bool evaluacion)
         {
@@ -493,7 +484,6 @@ namespace Semantica
                 }
             }
         }
-
         //Printf -> printf(cadena | expresion);
         private void Printf(bool evaluacion)
         {
@@ -511,9 +501,6 @@ namespace Semantica
                     CadenaLimpia = CadenaLimpia.Replace("\\t", "\t");
                     Console.Write(CadenaLimpia);
                 }
-
-
-
                 match(Tipos.Cadena);
             }
             else
@@ -525,7 +512,6 @@ namespace Semantica
                     Console.Write(resultado);
                 }
             }
-
             match(")");
             match(";");
         }
@@ -542,28 +528,21 @@ namespace Semantica
             {
                 throw new Error("No existe la variable <" + getContenido() + ">en la linea: " + linea, log);
             }
-            
+
             if (evaluacion)
             {
                 string val = "" + Console.ReadLine();
                 //requerimiento 5
-                //(mi idea)sacar mi parse para poder hacerlo
-
                 if (Regex.IsMatch(val, @"^[0-9]+([.][0-9]+)?$"))//tiene que ser un numero
                 {
-                   // Console.WriteLine("es un numero.\n");
-                   // float parseado = float.Parse(val);
-                    //if(){}
                     modVariable(getContenido(), float.Parse(val));
                 }
                 else
                 {
                     throw new Error("El valor que has introducido No es un numero <" + val + "> en la linea: " + linea, log);
                 }
-
-
             }
-            match(Tipos.Identificador);//va aqui???
+            match(Tipos.Identificador);
             match(")");
             match(";");
         }
@@ -584,7 +563,6 @@ namespace Semantica
                 log.Write(Operador + " ");
                 float n1 = stack.Pop();
                 float n2 = stack.Pop();
-
                 switch (Operador)
                 {
                     case "+":
@@ -613,7 +591,6 @@ namespace Semantica
                 log.Write(Operador + " ");
                 float n1 = stack.Pop();
                 float n2 = stack.Pop();
-
                 switch (Operador)
                 {
                     case "*":
