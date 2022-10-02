@@ -654,11 +654,28 @@ namespace Semantica
                     match(")");
                     match("(");
                     //poner expresion
+                    //Expresion();
+                    //match(")");
                 }
                 Expresion();
                 match(")");
                 if (huboCasteo)
                 {
+                    //tengo dudas de si funciona y como probarlo
+                    dominante = casteo;
+                    float cast = stack.Pop();
+                    switch (dominante)
+                    {
+                        case Variable.TipoDato.Char:
+                            stack.Push((char)cast);
+                            break;
+                        case Variable.TipoDato.Int:
+                            stack.Push((int)cast);
+                            break;
+                        case Variable.TipoDato.Float:
+                            stack.Push((float)cast);
+                            break;
+                    }
                     //requerimiento 2
                     //actualizar dominante
                     //saco un elemento del stack
