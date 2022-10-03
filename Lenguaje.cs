@@ -669,10 +669,10 @@ namespace Semantica
                     switch (dominante)
                     {
                         case Variable.TipoDato.Char:
-                            stack.Push((char)cast % 255);
+                            stack.Push((char)cast % 256);
                             break;
                         case Variable.TipoDato.Int:
-                            stack.Push((int)cast % 65535);
+                            stack.Push((int)cast % 65536);
                             break;
                         case Variable.TipoDato.Float:
                             stack.Push((float)cast);

@@ -1,7 +1,7 @@
 Archivo: prueba.cpp
-03/10/2022 04:22:42 p. m.
+03/10/2022 06:06:57 p. m.
 
-a = 256 = 1
+x = 256 = 0
 
 variables: 
 area Float 0
@@ -9,5 +9,5 @@ radio Float 0
 pi Float 0
 resultado Float 0
 x Char 0
-a Int 1
+a Int 0
 d Int 0
