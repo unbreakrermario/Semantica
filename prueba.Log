@@ -1,11 +1,13 @@
 Archivo: prueba.cpp
-30/09/2022 10:03:21 p. m.
-1 1 x 
+03/10/2022 04:22:42 p. m.
+
+a = 256 = 1
+
 variables: 
 area Float 0
 radio Float 0
 pi Float 0
 resultado Float 0
-x Char 678.5678
-a Int 0
+x Char 0
+a Int 1
 d Int 0

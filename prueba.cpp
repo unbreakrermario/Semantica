@@ -8,6 +8,7 @@ int a, d;
 // Este programa calcula el volumen de un cilindro.
 void main()
 {
+   x=(char)(256);
   //(int)x;
       /*if (1 == 1)
          printf("hola\n");

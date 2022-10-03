@@ -2,15 +2,15 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-//Requerimiento 1.- actualizar el dominante para variables en la expresion
+//Requerimiento 1.- actualizar el dominante para variables en la expresion***
 //                  Ejemplo: float x ; char y ; y=x ;
-//Requerimiento 2.- actualizar el dominante para el casteo y el valor de la subexpresion
+//Requerimiento 2.- actualizar el dominante para el casteo y el valor de la subexpresion*
 //Requerimiento 3.- programar un metodo de conversion de un valor a un tipo de dato
 //                  private float convert(float valor,string tipoDato) 
 //                  deberan usar el residuo de la division %255, %65535
 //Requerimiento 4.- evaluar nuevamente la condicion del if-else, while, for, do while, con
 //                  con respecto al parametro que recibe
-//Requerimiento 5.- levantar una excepcion en el scanf cuando la captura no sea numero**
+//Requerimiento 5.- levantar una excepcion en el scanf cuando la captura no sea numero***
 //Requerimiento 6.- ejecutar el For();
 namespace Semantica
 {
@@ -533,7 +533,7 @@ namespace Semantica
             {
                 string val = "" + Console.ReadLine();
                 //requerimiento 5
-                if (Regex.IsMatch(val, @"^[0-9]+([.][0-9]+)?$"))//tiene que ser un numero
+                if (Regex.IsMatch(val, @"^[0-9]+([.][0-9]+)?$"))//tiene que ser un numero con punto decimal
                 {
                     modVariable(getContenido(), float.Parse(val));
                 }
@@ -623,6 +623,7 @@ namespace Semantica
                     throw new Error("No existe la variable <" + getContenido() + ">en la linea: " + linea, log);
                 }
                 log.Write(getContenido() + " ");
+                //Requerimiento 1 
                 if (dominante < getTipo(getContenido()))
                 {
                     dominante = getTipo(getContenido());
@@ -662,15 +663,16 @@ namespace Semantica
                 if (huboCasteo)
                 {
                     //tengo dudas de si funciona y como probarlo
+                    
                     dominante = casteo;
                     float cast = stack.Pop();
                     switch (dominante)
                     {
                         case Variable.TipoDato.Char:
-                            stack.Push((char)cast);
+                            stack.Push((char)cast % 255);
                             break;
                         case Variable.TipoDato.Int:
-                            stack.Push((int)cast);
+                            stack.Push((int)cast % 65535);
                             break;
                         case Variable.TipoDato.Float:
                             stack.Push((float)cast);
