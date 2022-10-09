@@ -297,16 +297,16 @@ namespace Semantica
             match("while");
             match("(");
 
-            bool validarWhile = Condicion();
+            bool validarWhile = Condicion() && evaluacion;
             //requerimiento 4
             match(")");
             if (getContenido() == "{")
             {
-                BloqueInstrucciones(evaluacion);
+                BloqueInstrucciones(validarWhile);
             }
             else
             {
-                Instruccion(evaluacion);
+                Instruccion(validarWhile);
             }
         }
         //Do -> do bloque de instrucciones | intruccion while(Condicion)
@@ -324,7 +324,7 @@ namespace Semantica
             match("while");
             match("(");
             //requerimiento 4
-            bool validarDo = Condicion();
+            bool validarDo = Condicion() && evaluacion;
             match(")");
             match(";");
         }
@@ -337,24 +337,32 @@ namespace Semantica
             //requerimiento 4
             //requerimiento 6: 
             //a) nescesito guardar la poscicion de lectura en el archivo
-            bool validarFor = Condicion();
             //b) metemos un ciclo while despues de validar for
-            //while()
-            //{
-            match(";");
-            Incremento(evaluacion);
-            match(")");
-            if (getContenido() == "{")
-            {
-                BloqueInstrucciones(evaluacion);
-            }
-            else
-            {
-                Instruccion(evaluacion);
-            }
             //c) Regresar a la posicion de lectura del archivo
             //d) sacar otro token
-            //}
+            int pos = posicion - 2;
+            int lin = linea;
+            bool validarFor = Condicion();
+            do
+            {
+                archivo.DiscardBufferedData();
+                archivo.BaseStream.Seek(pos, SeekOrigin.Begin);
+                posicion = pos;
+                linea = lin;
+                NextToken();
+                validarFor = Condicion() && evaluacion;
+                match(";");
+                Incremento(validarFor);
+                match(")");
+                if (getContenido() == "{")
+                {
+                    BloqueInstrucciones(validarFor);
+                }
+                else
+                {
+                    Instruccion(validarFor);
+                }
+            } while (evaluacion && validarFor);
         }
         //Incremento -> Identificador ++ | --
         private void Incremento(bool evaluacion)
@@ -460,7 +468,7 @@ namespace Semantica
             match("if");
             match("(");
             //Requerimiento 4
-            bool validarIf = Condicion();
+            bool validarIf = Condicion() && evaluacion;
             match(")");
             if (getContenido() == "{")
             {
@@ -662,8 +670,7 @@ namespace Semantica
                 match(")");
                 if (huboCasteo)
                 {
-                    //tengo dudas de si funciona y como probarlo
-                    
+                    //esta seria mi funcion convert                    
                     dominante = casteo;
                     float cast = stack.Pop();
                     switch (dominante)
