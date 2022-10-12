@@ -1,21 +1,2 @@
 Archivo: prueba.cpp
-09/10/2022 02:54:44 p. m.
-altura 2 
-i = altura = 4
-i 0 i 0 
-j = 0 = 0
-j altura i - j altura i - j altura i - i 0 
-j = 0 = 0
-j altura i - j altura i - j altura i - j altura i - i 0 
-j = 0 = 0
-j altura i - j altura i - j altura i - j altura i - j altura i - i 0 
-j = 0 = 0
-j altura i - j altura i - j altura i - j altura i - j altura i - j altura i - i 0 
-j = 0 = 0
-j altura i - j altura i - 1 1 2 2 
-a = 256 = 256
-a 
-y = a = 0
-y 
-y = a = 256
-Error de semantica: no podemos asignar un: <Int> a un <Char> en linea  45
+12/10/2022 08:17:02 a. m.

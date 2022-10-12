@@ -334,6 +334,7 @@ namespace Semantica
             match("for");
             match("(");
             Asignacion(evaluacion);
+
             //requerimiento 4
             //requerimiento 6: 
             //a) nescesito guardar la poscicion de lectura en el archivo
@@ -343,6 +344,7 @@ namespace Semantica
             int pos = posicion - 2;
             int lin = linea;
             bool validarFor = Condicion();
+            Console.WriteLine(getContenido());
             do
             {
                 archivo.DiscardBufferedData();
