@@ -2,16 +2,15 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-//Requerimiento 1.- actualizar el dominante para variables en la expresion***
-//                  Ejemplo: float x ; char y ; y=x ;
-//Requerimiento 2.- actualizar el dominante para el casteo y el valor de la subexpresion*
-//Requerimiento 3.- programar un metodo de conversion de un valor a un tipo de dato
-//                  private float convert(float valor,string tipoDato) 
-//                  deberan usar el residuo de la division %255, %65535
-//Requerimiento 4.- evaluar nuevamente la condicion del if-else, while, for, do while, con
-//                  con respecto al parametro que recibe
-//Requerimiento 5.- levantar una excepcion en el scanf cuando la captura no sea numero***
-//Requerimiento 6.- ejecutar el For();
+//Requerimiento 1.- Actualizacion: 
+//                  A) Agregar el residuo de la division en porfactor
+//                  B) Agregar en instruccion los incrementos de termino y los incrementos
+//                     de factor, a++,a--,a+=1,a-=1,a*=1,a/=1,a%=1
+//                     en donde el 1 puede ser una expresion
+//                  C) marcar errores semanticos cuando los incrementos de termino o incrementos de factor 
+//                     superen el rango de la variable
+//                  D) considerar el inciso b) y c) para el for
+//                  E) que funcione el do y el while
 namespace Semantica
 {
     public class Lenguaje : Sintaxis
@@ -264,8 +263,13 @@ namespace Semantica
             log.Write(getContenido() + " = ");
             string nombre = getContenido();
             match(Tipos.Identificador);
-            match(Tipos.Asignacion);
             dominante = Variable.TipoDato.Char;
+            if(getClasificacion() == Tipos.IncrementoTermino|| getClasificacion() == Tipos.IncrementoFactor)
+            {
+                //requerimiento 1.B
+                //requerimiento 1.C
+            }
+            match(Tipos.Asignacion);
             Expresion();
             match(";");
             float resultado = stack.Pop();
@@ -344,7 +348,8 @@ namespace Semantica
             int pos = posicion - 2;
             int lin = linea;
             bool validarFor = Condicion();
-            Console.WriteLine(getContenido());
+            //validarFor=false;
+            //Console.WriteLine(getContenido());
             do
             {
                 archivo.DiscardBufferedData();
@@ -354,7 +359,8 @@ namespace Semantica
                 NextToken();
                 validarFor = Condicion() && evaluacion;
                 match(";");
-                Incremento(validarFor);
+                Incremento(evaluacion);
+                //Requerimiento 1.D
                 match(")");
                 if (getContenido() == "{")
                 {
@@ -392,7 +398,6 @@ namespace Semantica
                 }
             }
         }
-
         //Switch -> switch (Expresion) {Lista de casos} | (default: )
         private void Switch(bool evaluacion)
         {
@@ -601,6 +606,7 @@ namespace Semantica
                 log.Write(Operador + " ");
                 float n1 = stack.Pop();
                 float n2 = stack.Pop();
+                //requerimiento 1.A
                 switch (Operador)
                 {
                     case "*":
