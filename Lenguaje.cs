@@ -7,10 +7,16 @@ using System.Collections.Generic;
 //                  B) Agregar en instruccion los incrementos de termino y los incrementos
 //                     de factor, a++,a--,a+=1,a-=1,a*=1,a/=1,a%=1
 //                     en donde el 1 puede ser una expresion
+//                  C)programar el destructor en la clase lexico
+//                  para ejecutar el metodo cerrarArchivo
+//                  #libreria especial? contenedor?
+//                  
+//Requerimiento 2.- Actualizacion la venganza:                 
 //                  C) marcar errores semanticos cuando los incrementos de termino o incrementos de factor 
 //                     superen el rango de la variable
 //                  D) considerar el inciso b) y c) para el for
 //                  E) que funcione el do y el while
+//Requerimiento 3.- Considerar las variables y los casteos de las exresiones matematicas en ensamblador
 namespace Semantica
 {
     public class Lenguaje : Sintaxis
@@ -26,6 +32,13 @@ namespace Semantica
         {
 
         }
+        //destructor
+        /* ~Lenguaje()
+         {
+             Console.WriteLine("Destructor");
+             cerrar();
+         }*/
+
         private void addVariable(String nombre, Variable.TipoDato tipo)
         {
             variables.Add(new Variable(nombre, tipo));
@@ -91,10 +104,16 @@ namespace Semantica
         //Programa  -> Librerias? Variables? Main
         public void Programa()
         {
+            asm.WriteLine("#make_COM#");
+            asm.WriteLine("include emu8086.inc");
+            asm.WriteLine("ORG 100h");
             Libreria();
             Variables();
             Main();
             displayVariables();
+            asm.WriteLine("RET");
+            asm.WriteLine("END");
+            
         }
 
         //Librerias -> #include<identificador(.h)?> Librerias?
@@ -259,12 +278,13 @@ namespace Semantica
             {
                 throw new Error("No existe la variable <" + getContenido() + ">en la linea: " + linea, log);
             }
-            log.WriteLine();
-            log.Write(getContenido() + " = ");
             string nombre = getContenido();
             match(Tipos.Identificador);
+            log.WriteLine();
+            log.Write(getContenido() + " = ");
+            //match("=");
             dominante = Variable.TipoDato.Char;
-            if(getClasificacion() == Tipos.IncrementoTermino|| getClasificacion() == Tipos.IncrementoFactor)
+            if (getClasificacion() == Tipos.IncrementoTermino || getClasificacion() == Tipos.IncrementoFactor)
             {
                 //requerimiento 1.B
                 //requerimiento 1.C
@@ -273,6 +293,7 @@ namespace Semantica
             Expresion();
             match(";");
             float resultado = stack.Pop();
+            asm.WriteLine("POP AX");
             log.Write("= " + resultado);
             log.WriteLine();
             //Console.WriteLine(dominante);
@@ -337,8 +358,8 @@ namespace Semantica
         {
             match("for");
             match("(");
-            Asignacion(evaluacion);
-
+            /*metodo*/Asignacion(evaluacion);
+            string nombre=getContenido();
             //requerimiento 4
             //requerimiento 6: 
             //a) nescesito guardar la poscicion de lectura en el archivo
@@ -348,6 +369,7 @@ namespace Semantica
             int pos = posicion - 2;
             int lin = linea;
             bool validarFor = Condicion();
+            int cambio = 0;
             //validarFor=false;
             //Console.WriteLine(getContenido());
             do
@@ -356,47 +378,53 @@ namespace Semantica
                 archivo.BaseStream.Seek(pos, SeekOrigin.Begin);
                 posicion = pos;
                 linea = lin;
-                NextToken();
-                validarFor = Condicion() && evaluacion;
+                /*metodo*/NextToken();
+                validarFor = Condicion();
                 match(";");
-                Incremento(evaluacion);
+                /*metodo*/cambio = Incremento();
                 //Requerimiento 1.D
                 match(")");
                 if (getContenido() == "{")
                 {
-                    BloqueInstrucciones(validarFor);
+                    /*metodo*/BloqueInstrucciones(validarFor&&evaluacion);
                 }
                 else
                 {
-                    Instruccion(validarFor);
+                    /*metodo*/Instruccion(validarFor&&evaluacion);
+                }
+                if (validarFor&&evaluacion)
+                {
+                    /*metodo*/modVariable(nombre, getValor(nombre) + cambio);
                 }
             } while (evaluacion && validarFor);
         }
         //Incremento -> Identificador ++ | --
-        private void Incremento(bool evaluacion)
+        private int Incremento()
         {
             string variable = getContenido();
+            int cambio=0;
             if (!existeVariable(getContenido()))
             {
                 throw new Error("No existe la variable <" + getContenido() + ">en la linea: " + linea, log);
             }
             match(Tipos.Identificador);
-            if (getContenido() == "++")
+            
+            if (getClasificacion() == Tipos.IncrementoTermino)
             {
-                match("++");
-                if (evaluacion)
+                if (getContenido()[0] == '+')
                 {
-                    modVariable(variable, getValor(variable) + 1);
+                    match("++");cambio = 1;
+                }
+                else
+                {
+                    match("--");cambio = -1;
                 }
             }
             else
             {
-                match("--");
-                if (evaluacion)
-                {
-                    modVariable(variable, getValor(variable) - 1);
-                }
+                match(Tipos.IncrementoTermino);
             }
+            return cambio;
         }
         //Switch -> switch (Expresion) {Lista de casos} | (default: )
         private void Switch(bool evaluacion)
@@ -405,6 +433,7 @@ namespace Semantica
             match("(");
             Expresion();
             stack.Pop();
+            asm.WriteLine("POP AX");
             match(")");
             match("{");
             ListaDeCasos(evaluacion);
@@ -429,6 +458,7 @@ namespace Semantica
             match("case");
             Expresion();
             stack.Pop();
+            asm.WriteLine("POP AX");
             match(":");
             ListaInstruccionesCase(evaluacion);
             if (getContenido() == "break")
@@ -450,7 +480,9 @@ namespace Semantica
             match(Tipos.OperadorRelacional);
             Expresion();
             float e2 = stack.Pop();
+            asm.WriteLine("POP AX");
             float e1 = stack.Pop();
+            asm.WriteLine("POP BX");
             switch (operador)
             {
                 case "==":
@@ -522,6 +554,7 @@ namespace Semantica
             {
                 Expresion();
                 float resultado = stack.Pop();
+                asm.WriteLine("POP AX");
                 if (evaluacion)
                 {
                     Console.Write(resultado);
@@ -577,14 +610,20 @@ namespace Semantica
                 Termino();
                 log.Write(Operador + " ");
                 float n1 = stack.Pop();
+                asm.WriteLine("POP AX");
                 float n2 = stack.Pop();
+                asm.WriteLine("POP BX");
                 switch (Operador)
                 {
                     case "+":
                         stack.Push(n2 + n1);
+                        asm.WriteLine("ADD AX, BX");
+                        asm.WriteLine("PUSH AX");
                         break;
                     case "-":
                         stack.Push(n2 - n1);
+                        asm.WriteLine("SUB AX, BX");
+                        asm.WriteLine("PUSH AX");
                         break;
                 }
             }
@@ -605,15 +644,21 @@ namespace Semantica
                 Factor();
                 log.Write(Operador + " ");
                 float n1 = stack.Pop();
+                asm.WriteLine("POP AX");
                 float n2 = stack.Pop();
+                asm.WriteLine("POP BX");
                 //requerimiento 1.A
                 switch (Operador)
                 {
                     case "*":
                         stack.Push(n2 * n1);
+                        asm.WriteLine("MUL BX");
+                        asm.WriteLine("PUSH AX");
                         break;
                     case "/":
                         stack.Push(n2 / n1);
+                        asm.WriteLine("DIV BX");
+                        asm.WriteLine("PUSH AX");
                         break;
                 }
             }
@@ -630,6 +675,8 @@ namespace Semantica
                 }
 
                 stack.Push(float.Parse(getContenido()));
+                asm.WriteLine("MOV AX, " + getContenido());
+                asm.WriteLine("PUSH AX" );
                 match(Tipos.Numero);
             }
             else if (getClasificacion() == Tipos.Identificador)
@@ -681,6 +728,7 @@ namespace Semantica
                     //esta seria mi funcion convert                    
                     dominante = casteo;
                     float cast = stack.Pop();
+                    asm.WriteLine("POP AX");
                     switch (dominante)
                     {
                         case Variable.TipoDato.Char:
