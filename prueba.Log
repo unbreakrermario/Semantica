@@ -1,20 +1,6 @@
 Archivo: prueba.cpp
-20/10/2022 02:42:48 p. m.
-altura 2 
-= = altura = 5
-i 0 i 0 
-= = 0 = 0
-j altura i - j altura i - j 2 i 0 
-= = 0 = 0
-j altura i - j altura i - j 2 j altura i - j 2 i 0 
-= = 0 = 0
-j altura i - j altura i - j 2 j altura i - j 2 j altura i - j 2 i 0 
-= = 0 = 0
-j altura i - j altura i - j 2 j altura i - j 2 j altura i - j 2 j altura i - j 2 i 0 
-= = 0 = 0
-j altura i - j altura i - j 2 j altura i - j 2 j altura i - j 2 j altura i - j 2 j altura i - j 2 i 0 
-= = 0 = 0
-j altura i - j altura i - j 2 1 1 2 2 
+20/10/2022 10:15:55 p. m.
+
 variables: 
 area Float 0
 radio Float 0

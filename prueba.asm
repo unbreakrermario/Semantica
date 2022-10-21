@@ -1,5 +1,5 @@
 ;Archivo: prueba.cpp
-;Fecha: 20/10/2022 02:42:48 p. m.
+;Fecha: 20/10/2022 10:15:55 p. m.
 #make_COM#
 include emu8086.inc
 ORG 100h
@@ -246,18 +246,6 @@ SUB AX, BX
 PUSH AX
 POP AX
 POP BX
-MOV AX, 2
-PUSH AX
-POP AX
-POP BX
-MOV AX, 1
-PUSH AX
-MOV AX, 1
-PUSH AX
-POP AX
-POP BX
-MOV AX, 2
-PUSH AX
 MOV AX, 2
 PUSH AX
 POP AX
