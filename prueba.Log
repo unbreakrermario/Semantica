@@ -1,5 +1,5 @@
 Archivo: prueba.cpp
-21/10/2022 09:57:42 a. m.
+24/10/2022 01:24:51 p. m.
 
 variables: 
 area Float 0
@@ -9,7 +9,7 @@ resultado Float 0
 a Int 0
 d Int 0
 altura Int 0
-x Float 0
+x Float 10
 y Char 61
 i Int 0
 j Int 0
