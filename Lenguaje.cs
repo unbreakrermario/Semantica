@@ -19,6 +19,11 @@ using System.Collections.Generic;
 //Requerimiento 3.- 
 //                  A)Considerar las variables y los casteos de las exresiones matematicas en ensamblador
 //                  B)Considerar el residuo de la division (residuo queda en DX y el resultado en AX)
+//                  C)programar el printf y el scanf en assembler????????
+//Requerimiento 4.- a)programar el else en assembler
+//////////////////  b)programar el for en assembler
+//Requerimiento 5.- a)programar el while en assembler
+//                  b)programar el do while en assembler
 namespace Semantica
 {
     public class Lenguaje : Sintaxis
@@ -27,13 +32,14 @@ namespace Semantica
         Stack<float> stack = new Stack<float>();
         Variable.TipoDato dominante;
         int cIf;
+        int cFor;
         public Lenguaje()
         {
-            cIf = 0;
+            cIf = cFor = 0;
         }
         public Lenguaje(string nombre) : base(nombre)
         {
-            cIf = 0;
+            cIf = cFor = 0;
         }
         //destructor
         /* ~Lenguaje()
@@ -55,12 +61,12 @@ namespace Semantica
                 log.WriteLine(v.getNombre() + " " + v.getTipo() + " " + v.getValor());
             }
         }
-         private void variablesASM()
+        private void variablesASM()
         {
             asm.WriteLine(";Variable");
             foreach (Variable v in variables)
             {
-                asm.WriteLine("\t"+v.getNombre() + " DW ?");
+                asm.WriteLine("\t" + v.getNombre() + " DW ?");
             }
         }
         private bool existeVariable(string nombre)
@@ -328,8 +334,8 @@ namespace Semantica
                 {
                     throw new Error("Error de semantica: no podemos asignar un: <" + dominante + "> a un <" + getTipo(nombre) + "> en linea  " + linea, log);
                 }
-                
-                 asm.WriteLine("MOV " + nombre + ", AX");
+
+                asm.WriteLine("MOV " + nombre + ", AX");
             }
             else
             {
@@ -377,22 +383,17 @@ namespace Semantica
         //For -> for(Asignacion Condicion; Incremento) BloqueInstruccones | Intruccion 
         private void For(bool evaluacion)
         {
+            string etiquetaInicioFor = "inicioFor" + cFor;
+            string etiquetaFinFor = "finFor" + cFor++;
+            asm.WriteLine(etiquetaInicioFor + ":");
             match("for");
             match("(");
             Asignacion(evaluacion);
-            string nombre = getContenido();
-            //requerimiento 4
-            //requerimiento 6: 
-            //a) nescesito guardar la poscicion de lectura en el archivo
-            //b) metemos un ciclo while despues de validar for
-            //c) Regresar a la posicion de lectura del archivo
-            //d) sacar otro token
-            int pos = posicion - 2;
+            string nombre;
+            int pos = posicion - 1;
             int lin = linea;
             bool validarFor = Condicion("");
             int cambio = 0;
-            //validarFor=false;
-            //Console.WriteLine(getContenido());
             do
             {
                 archivo.DiscardBufferedData();
@@ -402,6 +403,7 @@ namespace Semantica
                 NextToken();
                 validarFor = Condicion("");
                 match(";");
+                nombre = getContenido();
                 cambio = Incremento();
                 //Requerimiento 1.D
                 match(")");
@@ -419,6 +421,7 @@ namespace Semantica
                 }
                 //Console.Write(getValor(nombre));
             } while (evaluacion && validarFor);
+            asm.WriteLine(etiquetaFinFor + ":");
         }
         //Incremento -> Identificador ++ | --
         private int Incremento()
@@ -536,22 +539,22 @@ namespace Semantica
             switch (operador)
             {
                 case "==":
-                asm.WriteLine("JNE " + etiqueta);
+                    asm.WriteLine("JNE " + etiqueta);
                     return e1 == e2;
                 case ">":
-                asm.WriteLine("JLE " + etiqueta);
+                    asm.WriteLine("JLE " + etiqueta);
                     return e1 > e2;
                 case ">=":
-                asm.WriteLine("JL " + etiqueta);
+                    asm.WriteLine("JL " + etiqueta);
                     return e1 >= e2;
                 case "<":
-                asm.WriteLine("JGE " + etiqueta);
+                    asm.WriteLine("JGE " + etiqueta);
                     return e1 < e2;
                 case "<=":
-                asm.WriteLine("JG " + etiqueta);
+                    asm.WriteLine("JG " + etiqueta);
                     return e1 <= e2;
                 default:
-                asm.WriteLine("JE " + etiqueta);
+                    asm.WriteLine("JE " + etiqueta);
                     return e1 != e2;
             }
 
