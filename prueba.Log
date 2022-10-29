@@ -1,9 +1,9 @@
 Archivo: prueba.cpp
-26/10/2022 09:58:24 p. m.
+28/10/2022 09:37:35 a. m.
 
 variables: 
 area Float 0
-radio Float 0
+radio Float 10
 pi Float 0
 resultado Float 0
 a Int 0
@@ -11,7 +11,7 @@ d Int 0
 altura Int 0
 k Int 0
 l Int 0
-x Float 1
+x Float 0
 y Int 0
-i Int 1
-j Int 1
+i Int 0
+j Int 0

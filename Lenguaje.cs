@@ -131,6 +131,7 @@ namespace Semantica
             Main();
             displayVariables();
             asm.WriteLine("RET");
+            asm.WriteLine("DEFINE_SCAN_NUM");
             asm.WriteLine("END");
 
         }
@@ -609,6 +610,7 @@ namespace Semantica
                     CadenaLimpia = CadenaLimpia.Replace("\\t", "\t");
                     Console.Write(CadenaLimpia);
                 }
+                asm.WriteLine("PRINTN "+ getContenido());
                 match(Tipos.Cadena);
             }
             else
@@ -619,6 +621,7 @@ namespace Semantica
                 if (evaluacion)
                 {
                     Console.Write(resultado);
+                    //codigo ensamblador para imprimir una variable
                 }
             }
             match(")");
@@ -650,6 +653,8 @@ namespace Semantica
                 {
                     throw new Error("El valor que has introducido No es un numero <" + val + "> en la linea: " + linea, log);
                 }
+                asm.WriteLine("CALL SCAN_NUM");
+                asm.WriteLine("MOV "+getContenido()+", CX");
             }
             match(Tipos.Identificador);
             match(")");
