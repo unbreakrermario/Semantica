@@ -40,13 +40,18 @@ namespace Semantica
         {
             cIf = cFor = 0;
         }
+        /*public class Destroyer
+        {
+            public override string ToString() => GetType().Name;
+
+            ~Destroyer() => Console.WriteLine($"The {ToString()} finalizer is executing.");
+        }
         //destructor
-        /* ~Lenguaje()
+         ~Lenguaje()
          {
              Console.WriteLine("Destructor");
              cerrar();
          }*/
-
         private void addVariable(String nombre, Variable.TipoDato tipo)
         {
             variables.Add(new Variable(nombre, tipo));
@@ -473,7 +478,7 @@ namespace Semantica
                     }
                 }
                 //no se si este bien 
-                 if (getContenido()[0] == '+')
+                if (getContenido()[0] == '+')
                 {
                     match("+=");
                     if (evaluacion)
@@ -513,7 +518,7 @@ namespace Semantica
                         modVariable(nombre, getValor(nombre) % 1);
                     }
                 }
-                
+
             }
             else
             {
@@ -651,7 +656,7 @@ namespace Semantica
                     CadenaLimpia = CadenaLimpia.Replace("\\t", "\t");
                     Console.Write(CadenaLimpia);
                 }
-                asm.WriteLine("PRINTN "+ getContenido());
+                asm.WriteLine("PRINTN " + getContenido());
                 match(Tipos.Cadena);
             }
             else
@@ -695,7 +700,7 @@ namespace Semantica
                     throw new Error("El valor que has introducido No es un numero <" + val + "> en la linea: " + linea, log);
                 }
                 asm.WriteLine("CALL SCAN_NUM");
-                asm.WriteLine("MOV "+getContenido()+", CX");
+                asm.WriteLine("MOV " + getContenido() + ", CX");
             }
             match(Tipos.Identificador);
             match(")");

@@ -11,6 +11,6 @@ int j;
 // Este programa calcula el volumen de un cilindro.
 void main()
 {
-   printf("introduce el radio del cilindro");
+   printf("introduce el radio del cilindro ");
    scanf("%f", &radio);
 }
