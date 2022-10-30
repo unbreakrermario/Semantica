@@ -10,7 +10,6 @@ using System.Collections.Generic;
 //                  C)programar el destructor en la clase lexico
 //                  para ejecutar el metodo cerrarArchivo
 //                  #libreria especial? contenedor?
-//                  
 //Requerimiento 2.- Actualizacion la venganza:                 
 //                  C) marcar errores semanticos cuando los incrementos de termino o incrementos de factor 
 //                     superen el rango de la variable
@@ -465,7 +464,7 @@ namespace Semantica
                         modVariable(nombre, getValor(nombre) + 1);
                     }
                 }
-                else
+                if (getContenido()[0] == '-')
                 {
                     match("--");
                     if (evaluacion)
@@ -473,6 +472,48 @@ namespace Semantica
                         modVariable(nombre, getValor(nombre) - 1);
                     }
                 }
+                //no se si este bien 
+                 if (getContenido()[0] == '+')
+                {
+                    match("+=");
+                    if (evaluacion)
+                    {
+                        modVariable(nombre, getValor(nombre) + 1);
+                    }
+                }
+                if (getContenido()[0] == '-')
+                {
+                    match("-=");
+                    if (evaluacion)
+                    {
+                        modVariable(nombre, getValor(nombre) - 1);
+                    }
+                }
+                if (getContenido()[0] == '*')
+                {
+                    match("*=");
+                    if (evaluacion)
+                    {
+                        modVariable(nombre, getValor(nombre) * 1);
+                    }
+                }
+                if (getContenido()[0] == '/')
+                {
+                    match("/=");
+                    if (evaluacion)
+                    {
+                        modVariable(nombre, getValor(nombre) / 1);
+                    }
+                }
+                if (getContenido()[0] == '%')
+                {
+                    match("%=");
+                    if (evaluacion)
+                    {
+                        modVariable(nombre, getValor(nombre) % 1);
+                    }
+                }
+                
             }
             else
             {
@@ -723,6 +764,7 @@ namespace Semantica
                         break;
                     case "/":
                         stack.Push(n2 / n1);
+                        stack.Push(n2 % n1);      //residuo?
                         asm.WriteLine("DIV BX");
                         asm.WriteLine("PUSH AX");
                         break;
