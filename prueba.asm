@@ -1,5 +1,6 @@
+;Mario Valdez Rico
 ;Archivo: prueba.cpp
-;Fecha: 30/10/2022 02:35:23 p. m.
+;Fecha: 01/11/2022 11:18:38 a. m.
 #make_COM#
 include emu8086.inc
 ORG 100h

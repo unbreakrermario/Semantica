@@ -2,7 +2,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-//Requerimiento 1.- Actualizacion: 
+//Requerimiento 1.- Actualizacion: **
 //                  A) Agregar el residuo de la division en porfactor
 //                  B) Agregar en instruccion los incrementos de termino y los incrementos
 //                     de factor, a++,a--,a+=1,a-=1,a*=1,a/=1,a%=1
@@ -16,7 +16,7 @@ using System.Collections.Generic;
 //                  D) considerar el inciso b) y c) para el for
 //                  E) que funcione el do y el while
 //Requerimiento 3.- 
-//                  A)Considerar las variables y los casteos de las exresiones matematicas en ensamblador
+//                  A)Considerar las variables y los casteos de las expresiones matematicas en ensamblador
 //                  B)Considerar el residuo de la division (residuo queda en DX y el resultado en AX)
 //                  C)programar el printf y el scanf en assembler????????
 //Requerimiento 4.- a)programar el else en assembler
@@ -25,8 +25,18 @@ using System.Collections.Generic;
 //                  b)programar el do while en assembler
 namespace Semantica
 {
-    public class Lenguaje : Sintaxis
+    public class Lenguaje : Sintaxis//,IDisposable
     {
+        /*public void Dispose()
+        {
+            Console.WriteLine("Se ha liberado la memoria");
+            cerrar();
+            // Dispose of unmanaged resources.
+            // Dispose(true);
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+            
+        }*/
         List<Variable> variables = new List<Variable>();
         Stack<float> stack = new Stack<float>();
         Variable.TipoDato dominante;
@@ -40,18 +50,14 @@ namespace Semantica
         {
             cIf = cFor = 0;
         }
-        /*public class Destroyer
-        {
-            public override string ToString() => GetType().Name;
 
-            ~Destroyer() => Console.WriteLine($"The {ToString()} finalizer is executing.");
-        }
         //destructor
          ~Lenguaje()
          {
              Console.WriteLine("Destructor");
              cerrar();
-         }*/
+         }
+        
         private void addVariable(String nombre, Variable.TipoDato tipo)
         {
             variables.Add(new Variable(nombre, tipo));
@@ -461,7 +467,7 @@ namespace Semantica
         {
             if (getClasificacion() == Tipos.IncrementoTermino)
             {
-                if (getContenido()[0] == '+')
+                if (getContenido() == "++")
                 {
                     match("++");
                     if (evaluacion)
@@ -469,7 +475,7 @@ namespace Semantica
                         modVariable(nombre, getValor(nombre) + 1);
                     }
                 }
-                if (getContenido()[0] == '-')
+                if (getContenido() == "--")
                 {
                     match("--");
                     if (evaluacion)
@@ -478,44 +484,55 @@ namespace Semantica
                     }
                 }
                 //no se si este bien 
-                if (getContenido()[0] == '+')
+                if (getContenido() == "+=")
                 {
                     match("+=");
+                    Expresion();
+                    float valor = stack.Pop();
+
                     if (evaluacion)
                     {
-                        modVariable(nombre, getValor(nombre) + 1);
+                        modVariable(nombre, getValor(nombre) + valor);
                     }
                 }
-                if (getContenido()[0] == '-')
+                if (getContenido() == "-=")
                 {
                     match("-=");
+                    Expresion();
+                    float valor = stack.Pop();
                     if (evaluacion)
                     {
-                        modVariable(nombre, getValor(nombre) - 1);
+                        modVariable(nombre, getValor(nombre) - valor);
                     }
                 }
-                if (getContenido()[0] == '*')
+                if (getContenido() == "*=")
                 {
                     match("*=");
+                    Expresion();
+                    float valor = stack.Pop();
                     if (evaluacion)
                     {
-                        modVariable(nombre, getValor(nombre) * 1);
+                        modVariable(nombre, getValor(nombre) * valor);
                     }
                 }
-                if (getContenido()[0] == '/')
+                if (getContenido() == "/=")
                 {
                     match("/=");
+                     Expresion();
+                    float valor = stack.Pop();
                     if (evaluacion)
                     {
-                        modVariable(nombre, getValor(nombre) / 1);
+                        modVariable(nombre, getValor(nombre) / valor);
                     }
                 }
-                if (getContenido()[0] == '%')
+                if (getContenido() == "%=")
                 {
                     match("%=");
+                     Expresion();
+                    float valor = stack.Pop();
                     if (evaluacion)
                     {
-                        modVariable(nombre, getValor(nombre) % 1);
+                        modVariable(nombre, getValor(nombre) % valor);
                     }
                 }
 
@@ -769,9 +786,12 @@ namespace Semantica
                         break;
                     case "/":
                         stack.Push(n2 / n1);
-                        stack.Push(n2 % n1);      //residuo?
                         asm.WriteLine("DIV BX");
                         asm.WriteLine("PUSH AX");
+                        break;
+                    case "%":
+                        stack.Push(n2 % n1);      
+                        asm.WriteLine("PUSH DX");//residuo (dudas)
                         break;
                 }
             }

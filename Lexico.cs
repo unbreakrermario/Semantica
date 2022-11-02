@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Semantica
 {
-    public class Lexico : Token
+    public class Lexico : Token,IDisposable
     {
         protected StreamReader archivo;
         protected StreamWriter log;
@@ -13,6 +13,16 @@ namespace Semantica
         protected int linea;
         protected int posicion;
 
+            public void Dispose()
+        {
+            Console.WriteLine("Se ha liberado la memoria");
+            cerrar();
+            // Dispose of unmanaged resources.
+            // Dispose(true);
+            // Suppress finalization.
+            //GC.SuppressFinalize(this);
+            
+        }
         int[,] TRAND = new int[,]
         {
             //WS,EF,EL,L, D, .,	E, +, -, =,	:, ;, &, |,	!, >, <, *,	%, /, ", ?,La, ', #
@@ -70,10 +80,11 @@ namespace Semantica
             log.AutoFlush = true;
             asm = new StreamWriter("C:\\Users\\eleme\\Desktop\\Semantica\\prueba.asm");
             asm.AutoFlush = true;
+            log.WriteLine("Mario Valdez Rico");
             //log.WriteLine("Primer constructor"); 
             log.WriteLine("Archivo: prueba.cpp");
             log.WriteLine(DateTime.Now);
-            
+            asm.WriteLine(";Mario Valdez Rico");
             asm.WriteLine(";Archivo: prueba.cpp");
             asm.WriteLine(";Fecha: "+DateTime.Now);
             //Requerimiento 1:
@@ -103,9 +114,10 @@ namespace Semantica
             asm.AutoFlush = true;
 
             //log.WriteLine("Segundo constructor");
+            log.WriteLine("Mario Valdez Rico");
             log.WriteLine("Archivo: "+nombre);
             log.WriteLine("Fecha: "+DateTime.Now);
-
+            asm.WriteLine(";Mario Valdez Rico");
             asm.WriteLine(";Archivo: "+nombre);
             asm.WriteLine(";Fecha: "+DateTime.Now);
             
