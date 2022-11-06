@@ -19,9 +19,11 @@ using System.Collections.Generic;
 //                  A)Considerar las variables y los casteos de las expresiones matematicas en ensamblador
 //                  B)Considerar el residuo de la division (residuo queda en DX y el resultado en AX)
 //                  C)programar el printf y el scanf en assembler????????
-//Requerimiento 4.- a)programar el else en assembler
-//////////////////  b)programar el for en assembler
-//Requerimiento 5.- a)programar el while en assembler
+//Requerimiento 4.- 
+//                  a)programar el else en assembler
+//                  b)programar el for en assembler
+//Requerimiento 5.- 
+//                  a)programar el while en assembler
 //                  b)programar el do while en assembler
 namespace Semantica
 {
@@ -34,8 +36,7 @@ namespace Semantica
             // Dispose of unmanaged resources.
             // Dispose(true);
             // Suppress finalization.
-            GC.SuppressFinalize(this);
-            
+            GC.SuppressFinalize(this); 
         }*/
         List<Variable> variables = new List<Variable>();
         Stack<float> stack = new Stack<float>();
@@ -301,6 +302,7 @@ namespace Semantica
         {
             Variable.TipoDato tipoDato = getTipo(variable);
             return false;
+            //requerimiento 2.C
         }
         private void Asignacion(bool evaluacion)
         {
@@ -359,9 +361,11 @@ namespace Semantica
         {
             match("while");
             match("(");
-
-            bool validarWhile = Condicion("") && evaluacion;
+            Asignacion(evaluacion);
+            string nombreContenido = getContenido();
+            bool validarWhile = Condicion("");// && evaluacion;//hay que checar si funciona asi o hay que ponerlo
             //requerimiento 4
+            
             match(")");
             if (getContenido() == "{")
             {
@@ -400,7 +404,7 @@ namespace Semantica
             match("for");
             match("(");
             Asignacion(evaluacion);
-            string nombre;
+            string nombreContenido;
             int pos = posicion - 1;
             int lin = linea;
             bool validarFor = Condicion("");
@@ -414,7 +418,7 @@ namespace Semantica
                 NextToken();
                 validarFor = Condicion("");
                 match(";");
-                nombre = getContenido();
+                nombreContenido = getContenido();
                 cambio = Incremento();
                 //Requerimiento 1.D
                 match(")");
@@ -428,7 +432,7 @@ namespace Semantica
                 }
                 if (validarFor && evaluacion)
                 {
-                    modVariable(nombre, getValor(nombre) + cambio);
+                    modVariable(nombreContenido, getValor(nombreContenido) + cambio);
                 }
                 //Console.Write(getValor(nombre));
             } while (evaluacion && validarFor);
@@ -447,11 +451,11 @@ namespace Semantica
 
             if (getClasificacion() == Tipos.IncrementoTermino)
             {
-                if (getContenido()[0] == '+')
+                if (getContenido() == "++")
                 {
                     match("++"); cambio = 1;
                 }
-                else
+                if(getContenido() == "--")
                 {
                     match("--"); cambio = -1;
                 }
@@ -465,6 +469,7 @@ namespace Semantica
         }
         private void Incremento(string nombre, bool evaluacion)//este lleva asignacion
         {
+           
             if (getClasificacion() == Tipos.IncrementoTermino)
             {
                 if (getContenido() == "++")
@@ -481,9 +486,9 @@ namespace Semantica
                     if (evaluacion)
                     {
                         modVariable(nombre, getValor(nombre) - 1);
+                        
                     }
                 }
-                //no se si este bien 
                 if (getContenido() == "+=")
                 {
                     match("+=");
@@ -535,12 +540,19 @@ namespace Semantica
                         modVariable(nombre, getValor(nombre) % valor);
                     }
                 }
-
+                
+                
+                   /* asm.WriteLine("mov eax, " + getValor(nombre));
+                    asm.WriteLine("add eax, " + stack.Pop());
+                    asm.WriteLine("mov " + nombre + ", eax");*/
+                
             }
             else
             {
                 match(Tipos.IncrementoTermino);
             }
+           
+            
         }
         //Switch -> switch (Expresion) {Lista de casos} | (default: )
         private void Switch(bool evaluacion)
@@ -867,12 +879,15 @@ namespace Semantica
                     {
                         case Variable.TipoDato.Char:
                             stack.Push((char)cast % 256);
+                           // asm.WriteLine("MOV AL, AH");
                             break;
                         case Variable.TipoDato.Int:
                             stack.Push((int)cast % 65536);
+                           // asm.WriteLine("MOV AX, DX");
                             break;
                         case Variable.TipoDato.Float:
                             stack.Push((float)cast);
+                           // asm.WriteLine("MOV AX, DX");
                             break;
                     }
                     //requerimiento 2
