@@ -9,7 +9,7 @@ char y; int i ;int j, k;
 void main(){
 
 /*printf("Introduce la altura de la piramide: ");
-    scanf("altura", &altura);*/
+    scanf("altura", &altura);
     
     if(1==1) {
         i=0;
@@ -18,29 +18,22 @@ void main(){
         printf("\n");
         i++;
         }
-    }
+    }*/
+
+      
         
 //y=255;
 //y++;
 
-    /*
+    
     printf("Introduce la altura de la piramide: ");
     scanf("altura", &altura);
-    
-    if(altura >2) {
-        for(i = altura; i > 0; i-=1){
-            j = 0; 
-            while(j < altura-i){
-                if(j%2 == 0){
-                    printf("*");
-                }
-                else{
-                    printf("-");
-                }
-                j+=1; 
-            }
-            printf("\n");
-        }
+    while(i<altura){
+        printf("LISTO");
+        printf("\n");
+        i++;
+     
+        }/*
         k = 0; 
         do
         {
