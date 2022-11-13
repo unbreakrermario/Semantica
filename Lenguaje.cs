@@ -860,7 +860,7 @@ namespace Semantica
                     {
                         asm.WriteLine("PRINT " + getContenido());
                     }
-                    else if (getContenido()[i] != '\n')
+                    else if (getContenido()[i] == '\n')
                     {
                         asm.WriteLine("PRINTN " + getContenido());
                     }

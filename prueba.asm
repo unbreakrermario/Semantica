@@ -1,6 +1,6 @@
 ;Mario Valdez Rico
 ;Archivo: prueba.cpp
-;Fecha: 12/11/2022 08:42:16 p. m.
+;Fecha: 13/11/2022 04:09:36 p. m.
 #make_COM#
 include emu8086.inc
 ORG 100h
@@ -19,44 +19,6 @@ ORG 100h
 	j DW ?
 	k DW ?
 PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "Introduzca el radio del cilindro: "
-PRINT "\n"
-PRINT "\n"
-PRINT "\n"
 PRINT "\n"
 POP AX
 PRINT_NUM
