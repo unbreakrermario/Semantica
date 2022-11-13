@@ -15,7 +15,7 @@ namespace Semantica
 
             public void Dispose()
         {
-            Console.WriteLine("Se ha liberado la memoria");
+            //Console.WriteLine("Se ha liberado la memoria");
             cerrar();
             // Dispose of unmanaged resources.
             // Dispose(true);

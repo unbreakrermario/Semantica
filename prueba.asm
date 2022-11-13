@@ -1,6 +1,6 @@
 ;Mario Valdez Rico
 ;Archivo: prueba.cpp
-;Fecha: 11/11/2022 09:49:29 a. m.
+;Fecha: 12/11/2022 08:42:16 p. m.
 #make_COM#
 include emu8086.inc
 ORG 100h
@@ -18,6 +18,50 @@ ORG 100h
 	i DW ?
 	j DW ?
 	k DW ?
-PRINT "Introduce la altura de la piramide: "
-CALL SCAN_NUM
-MOV altura, CX
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "Introduzca el radio del cilindro: "
+PRINT "\n"
+PRINT "\n"
+PRINT "\n"
+PRINT "\n"
+POP AX
+PRINT_NUM
+RET
+DEFINE_PRINT_NUM
+DEFINE_PRINT_NUM_UNS
+DEFINE_SCAN_NUM
+END
