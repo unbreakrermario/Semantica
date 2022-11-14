@@ -1,6 +1,6 @@
 Mario Valdez Rico
 Archivo: prueba.cpp
-13/11/2022 04:09:36 p. m.
+14/11/2022 01:05:11 a. m.
 
 variables: 
 area Float 0
@@ -13,6 +13,6 @@ altura Int 0
 cinco Int 0
 x Float 0
 y Char 0
-i Int 0
+i Int 20
 j Int 0
 k Int 0
