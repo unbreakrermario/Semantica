@@ -1,6 +1,6 @@
 ;Mario Valdez Rico
 ;Archivo: prueba.cpp
-;Fecha: 14/11/2022 01:05:11 a. m.
+;Fecha: 29/11/2022 10:59:54 p. m.
 #make_COM#
 include emu8086.inc
 ORG 100h
@@ -18,20 +18,23 @@ ORG 100h
 	i DW ?
 	j DW ?
 	k DW ?
-inicioFor0:
-MOV AX, 0
+inicioDo0:
+MOV AX, i
 PUSH AX
 POP AX
-MOV i, AX
-MOV AX, 20
+CALL PRINT_NUM
+PRINTN 
+INC i
+MOV AX, i
 PUSH AX
-POP AX
+MOV AX, 5
+PUSH AX
 POP BX
+POP AX
 CMP AX, BX
-JGE finFor0
-PRINT "hola"
-JMP inicioFor0
-finFor0:
+JGE finDo0
+JMP inicioDo0
+finDo0:
 RET
 DEFINE_PRINT_NUM
 DEFINE_PRINT_NUM_UNS
