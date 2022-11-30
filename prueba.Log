@@ -1,18 +1,18 @@
 Mario Valdez Rico
 Archivo: prueba.cpp
-29/11/2022 10:59:53 p. m.
+30/11/2022 12:20:42 a. m.
 
 variables: 
 area Float 0
 radio Float 0
 pi Float 0
 resultado Float 0
-a Int 0
+a Int 258
 d Int 0
-altura Int 0
+altura Int 1
 cinco Int 0
 x Float 0
-y Char 0
-i Int 5
+y Char 2
+i Int 0
 j Int 0
 k Int 0

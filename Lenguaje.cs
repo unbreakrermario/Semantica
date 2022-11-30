@@ -380,7 +380,7 @@ namespace Semantica
         {
             string etiquetaInicioWhile = "inicioWhile" + cWhile;
             string etiquetaFinWhile = "finWhile" + cWhile;
-            if(executedPrintAsm)
+            if (executedPrintAsm)
             {
                 cWhile++;
             }
@@ -534,12 +534,12 @@ namespace Semantica
                 }
                 if (validarFor && evaluacion)
                 {
-                    Console.WriteLine( getValor(nombreContenido));
-                    if(operador == "++"|| operador == "--")  
-                        modVariable(nombreContenido, cambio);
-                    else{
-                        //pendiente arreglar lo del mod
-                    }
+                    //Console.WriteLine( getValor(nombreContenido));
+                    //if(operador == "++"|| operador == "--")  
+                    modVariable(nombreContenido, cambio);
+                    // else{
+                    //pendiente arreglar lo del mod
+                    //}
                     //Console.WriteLine(cambio);
                 }
                 if (executedPrintAsm)
@@ -698,7 +698,7 @@ namespace Semantica
                 if (evaluaSemantica(variable, getValor(variable) % resultado))
                 {
                     cambio = getValor(variable) % resultado;
-                    
+
                 }
                 else
                 {
@@ -996,7 +996,12 @@ namespace Semantica
         //If -> if(Condicion) bloque de instrucciones (else bloque de instrucciones)?
         private void If(bool evaluacion, bool executedPrintAsm)
         {
-            string etiquetaIf = "if" + ++cIf;
+            string etiquetaIf = "if" + cIf;
+            string etiquetaElse = "else" + cIf;
+            if (executedPrintAsm)
+            {
+                cIf++;
+            }
             match("if");
             match("(");
             //Requerimiento 4
@@ -1010,9 +1015,18 @@ namespace Semantica
             {
                 Instruccion(validarIf && evaluacion, executedPrintAsm);
             }
+            if (executedPrintAsm && getContenido() != "else")//esta detecta el else
+            {
+                asm.WriteLine(etiquetaIf + ":");
+            }
             if (getContenido() == "else")
             {
                 //requerimiento 4
+                if (executedPrintAsm)
+                {
+                    asm.WriteLine("JMP " + etiquetaElse);
+                    asm.WriteLine(etiquetaIf + ":");
+                }
                 match("else");
                 if (getContenido() == "{")
                 {
@@ -1022,11 +1036,13 @@ namespace Semantica
                 {
                     Instruccion(!validarIf && evaluacion, executedPrintAsm);
                 }
+                if (executedPrintAsm)
+                {
+
+                    asm.WriteLine(etiquetaElse + ":");
+                }
             }
-            if (executedPrintAsm)
-            {
-                asm.WriteLine(etiquetaIf + ":");
-            }
+
         }
         //Printf -> printf(cadena | expresion);
         private void Printf(bool evaluacion, bool executedPrintAsm)
