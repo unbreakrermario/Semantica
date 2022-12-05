@@ -1,6 +1,6 @@
 ;Mario Valdez Rico
 ;Archivo: prueba.cpp
-;Fecha: 30/11/2022 12:20:42 a. m.
+;Fecha: 04/12/2022 06:40:08 p. m.
 #make_COM#
 include emu8086.inc
 ORG 100h
@@ -149,7 +149,7 @@ CALL PRINT_NUM
 MOV AX, a
 PUSH AX
 POP AX
-MOV AL, 0
+MOV AH, 0
 PUSH AX
 POP AX
 MOV y, AX

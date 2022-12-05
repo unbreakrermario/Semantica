@@ -1337,8 +1337,8 @@ namespace Semantica
                             stack.Push((char)cast % 256);
                             if (executedPrintAsm)
                             {
-                                asm.WriteLine("MOV AL, 0");
-                                asm.WriteLine("PUSH AX");
+                                asm.WriteLine("MOV AH, 0");//h es high y l es low
+                                asm.WriteLine("PUSH AX");//quitamos la parte alta
                             }
                             break;
                         case Variable.TipoDato.Int:
